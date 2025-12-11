@@ -1,0 +1,11 @@
+__pycache__/
+env/
+venv/
+*.pyc
+*.sqlite3
+*.db
+*.pcap
+attacks_full_dataset.json
+attacks_full_dataset.csv
+node_modules/
+dist/

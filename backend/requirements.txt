@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+python-multipart
+pyshark  # or scapy-http if you prefer
