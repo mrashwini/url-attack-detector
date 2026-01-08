@@ -1,64 +1,186 @@
-# URL-Based Cyber Attack Detection System
+🚀 How to Run & Test the Project (Beginner Friendly)
 
-Developed by Ashwini © 2025
+This section explains how to run the project and how to check whether a URL is malicious or not, step by step.
 
-A full-stack URL-based attack detection platform with:
+🛠️ Prerequisites (Install First)
 
-FastAPI backend for detection
+Make sure the following are installed on your system:
 
-React dashboard for visualization
+Python 3.10 or above
 
-PCAP ingestion
+Node.js (LTS version)
 
-Dataset generator + PCAP generator
+Git
 
-Support for 11+ attack types (SQLi, XSS, LFI, XXE, SSRF, etc.)
+👉 No cybersecurity knowledge is required.
 
-Export CSV/JSON
+📥 Step 1: Clone the Project
 
-Real-time statistics
+Open terminal and run:
 
-Anime cyberpunk UI
+git clone https://github.com/mrashwini/url-attack-detector.git
+cd url-attack-detector
 
-🚀 Features
+▶️ Step 2: Run the Backend (FastAPI)
 
-Detects multiple cyber-attacks via URL analysis
+From the project root:
 
-Parses PCAP files and extracts malicious requests
+python -m pip install -r backend/requirements.txt
+python -m uvicorn backend.main:app --reload
 
-Large automatically generated dataset
+✅ Backend running if you see:
+Uvicorn running on http://127.0.0.1:8000
 
-Beautiful web dashboard
 
-CSV/JSON export
+Open this in browser:
 
-IP range filtering
+http://localhost:8000/docs
 
-Successful vs. unsuccessful attack classification
 
-🔧 Technologies
+This opens an interactive API page (Swagger UI).
 
-Python FastAPI
+▶️ Step 3: Run the Frontend (Dashboard)
 
-React + Vite
+Open a new terminal:
 
-SQLite / SQLAlchemy
-
-Scapy
-
-Recharts
-
-📂 Project Structure
-backend/
-frontend/
-dataset_generator.py
-pcap_generator.py
-
-▶️ Running Backend
-cd backend
-uvicorn main:app --reload
-
-▶️ Running Frontend
 cd frontend
 npm install
 npm run dev
+
+✅ Frontend running if you see:
+Local: http://localhost:5173/
+
+
+Open in browser:
+
+http://localhost:5173
+
+
+You will see the URL-based Attack Detection Dashboard.
+
+🔍 How to Check Whether a URL is Malicious or Not
+
+You can test URLs using the backend API.
+
+🟢 Example 1: Normal (Non-Malicious) URL
+
+This is a safe URL:
+
+http://example.com/product?id=10
+
+
+It only contains a normal numeric parameter and does not try to exploit anything.
+
+How to test it:
+
+Open
+
+http://localhost:8000/docs
+
+
+Click POST /detect_url
+
+Paste this JSON:
+
+{
+  "src_ip": "192.168.1.10",
+  "dst_ip": "192.168.1.20",
+  "method": "GET",
+  "url": "http://example.com/product?id=10",
+  "status_code": 200
+}
+
+
+Click Execute
+
+👉 Result:
+
+Either no attack or logged as non-malicious
+
+🔴 Example 2: Malicious URL (SQL Injection)
+
+This is a malicious URL:
+
+http://example.com/product?id=10 UNION SELECT username,password FROM users
+
+
+It tries to steal database data using SQL Injection.
+
+How to test it:
+
+Open
+
+http://localhost:8000/docs
+
+
+Click POST /detect_url
+
+Paste this JSON:
+
+{
+  "src_ip": "192.168.1.50",
+  "dst_ip": "192.168.1.20",
+  "method": "GET",
+  "url": "http://example.com/product?id=10 UNION SELECT username,password FROM users",
+  "status_code": 500
+}
+
+
+Click Execute
+
+👉 Result:
+
+Attack Type: SQL_INJECTION
+
+Attack appears on the dashboard
+
+🔴 Example 3: Malicious URL (XSS)
+
+Another malicious example (Cross-Site Scripting):
+
+http://example.com/search?q=<script>alert(1)</script>
+
+
+Test using:
+
+{
+  "src_ip": "192.168.1.60",
+  "dst_ip": "192.168.1.20",
+  "method": "GET",
+  "url": "http://example.com/search?q=<script>alert(1)</script>",
+  "status_code": 200
+}
+
+
+👉 Result:
+
+Attack Type: XSS
+
+📊 Step 4: View Results on Dashboard
+
+Open:
+
+http://localhost:5173
+
+
+You can now see:
+
+Detected attacks
+
+Attack type (SQLi, XSS, etc.)
+
+Source IP
+
+Successful / unsuccessful flag
+
+Statistics & charts
+
+🧠 How the System Decides if a URL is Malicious
+
+The URL is analyzed for known attack patterns
+
+Keywords like UNION SELECT, <script>, ../, cmd=, etc. are detected
+
+Based on patterns and response codes, the attack is classified
+
+Results are stored and visualized automatically
