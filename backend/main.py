@@ -29,6 +29,14 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="URL Attack Detection API")
 
+@app.get("/")
+def home():
+    return {
+        "message": "URL Attack Detection API is running ✅",
+        "docs": "http://127.0.0.1:8000/docs"
+    }
+
+
 # ------------------ CORS ------------------
 app.add_middleware(
     CORSMiddleware,
