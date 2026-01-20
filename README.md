@@ -23,6 +23,7 @@ cd url-attack-detector
 
 ▶️ Step 2: Run the Backend (FastAPI)
 
+
 From the project root:
 
 python -m pip install -r backend/requirements.txt
@@ -38,6 +39,29 @@ http://localhost:8000/docs
 
 
 This opens an interactive API page (Swagger UI).
+
+🔍 Check if Backend is Running
+
+After starting the backend with:
+
+uvicorn backend.main:app --reload
+
+
+Open these links in your browser:
+
+Backend Home (Health Check):
+http://127.0.0.1:8000/
+✅ Should return: "URL Attack Detection API is running"
+
+Swagger API Docs (Recommended):
+http://127.0.0.1:8000/docs
+✅ You should see the interactive API dashboard
+
+API Stats Endpoint:
+http://127.0.0.1:8000/attacks/stats
+✅ Should return JSON attack statistics
+
+If you see 404 Not Found, ensure the backend server is running and the correct port is used.
 
 ▶️ Step 3: Run the Frontend (Dashboard)
 
